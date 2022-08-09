@@ -1,6 +1,6 @@
 ﻿namespace AT1_WikiPrototype
 {
-    partial class Form1
+    partial class FormWiki
     {
         /// <summary>
         /// Required designer variable.

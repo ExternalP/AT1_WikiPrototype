@@ -19,9 +19,9 @@ using System.Windows.Forms;
  */
 namespace AT1_WikiPrototype
 {
-    public partial class Form1 : Form
+    public partial class FormWiki : Form
     {
-        public Form1()
+        public FormWiki()
         {
             InitializeComponent();
         }
