@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 /* Name: Corin Little
  * ID: P453208
- * Date: 9/8/2022
+ * Date: 9/8/2022 - 16/8/2022
  * Purpose: AT1 - Project Wiki Prototype */
 /* Case Study – Data Structures Wiki Catalogue
  * As a senior programmer for CITE Managed Services develop a wiki app prototype 
@@ -19,7 +19,7 @@ using System.Windows.Forms;
  * Need to use GitHub version control for project. */
 /* Basic Structure:
  *  - ONLY allowed 1 class: FormWIki.cs
- *  - Simple global 2D String array to store records: myRecordsArray[11, 3].
+ *  - Simple global 2D String array to store records: recordsArray[11, 3].
  *  - Records' 4 String fields: recName, recCategory, recStructure & recDefinition.
  *  - Can add/edit/delete records
  *  - Search records by Name.
@@ -39,9 +39,22 @@ namespace AT1_WikiPrototype
 {
     public partial class FormWiki : Form
     {
+        // Initialise the 2D array
+        string[,] recordsArray = new string[11, 3];
         public FormWiki()
         {
             InitializeComponent();
+        }
+
+        // btn to add a record to recordsArray if valid & display it
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddRecord()
+        {
+
         }
     }
 }

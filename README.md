@@ -11,7 +11,7 @@ A rudimentary interface design is provided.
 Need to use GitHub version control for project.
 Basic Structure:
  - ONLY allowed 1 class: FormWIki.cs
- - Simple global 2D String array to store records: myRecordsArray[11, 3].
+ - Simple global 2D String array to store records: recordsArray[11, 3].
  - Records' 4 String fields: recName, recCategory, recStructure & recDefinition.
  - Can add/edit/delete records
  - Search records by Name.
