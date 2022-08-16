@@ -15,9 +15,16 @@ Basic Structure:
  - Records' 4 String fields: recName, recCategory, recStructure & recDefinition.
  - Can add/edit/delete records
  - Search records by Name.
- - Binary file efinitions.dat to stored the records by create/save/load from it.
-
-Functionality:
-
+ - Binary file definitions.dat to stored the records by create/save/load from it.
+ - Full error trapping & feedback messages.
+ - Selecting a record causes its data to be display in the 4 fields
+ - Sort array by name using separate bubble sort & swap methods
+ - Clear all 4 field boxes when name field is double clicked
+Form Design:
+ - Listbox displaying selectable records sorted by name.
+ - 4 textboxes for the 4 fields.
+ - A textbox for searching.
+ - Buttons to add, edit, delete, save & load.
+ - Status strip to display error messages.
 
 DONT FORGET to copy to FormWiki.cs
