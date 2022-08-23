@@ -40,20 +40,52 @@ namespace AT1_WikiPrototype
     public partial class FormWiki : Form
     {
         // Initialise the 2D array
-        string[,] recordsArray = new string[11, 3];
+        string[,] myRecordsArray = new string[11, 3];
         public FormWiki()
         {
             InitializeComponent();
         }
 
-        // btn to add a record to recordsArray if valid & display it
+        // ______________________NOT FINISHED_______________________
+        // btn to add a record to recordsArray & display it
         private void btnAdd_Click(object sender, EventArgs e)
         {
 
         }
 
+        // ______________________NOT FINISHED_______________________
+        // Add record details to myRecordsArray if valid
         private void AddRecord()
         {
+            // hasData = false if invalid field (stat-msg but still add record)
+            // hasName: if false DONT add record
+            bool hasName = true, hasData = true, duplicateFound;
+            string missingField = "";
+
+            if (String.IsNullOrEmpty(tbName.Text))
+            {
+                hasName = false;
+                hasData = false;
+                missingField = "Name ";
+            }
+            if (String.IsNullOrEmpty(tbName.Text))
+            {
+                hasName = false;
+                hasData = false;
+                missingField = "Name ";
+            }
+            if (String.IsNullOrEmpty(tbName.Text))
+            {
+                hasName = false;
+                hasData = false;
+                missingField = "Name ";
+            }
+            if (String.IsNullOrEmpty(tbName.Text))
+            {
+                hasName = false;
+                hasData = false;
+                missingField = "Name ";
+            }
 
         }
     }
