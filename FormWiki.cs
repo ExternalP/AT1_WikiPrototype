@@ -45,6 +45,7 @@ namespace AT1_WikiPrototype
         {
             InitializeComponent();
         }
+        private int nullIndex = 0;
 
         // ______________________NOT FINISHED_______________________
         // btn to add a record to myRecordsArray & display it
@@ -59,7 +60,8 @@ namespace AT1_WikiPrototype
         {
             // hasData = false if invalid field (stat-msg but still add record)
             // hasName: if false DONT add record
-            bool hasName = true, hasData = true, duplicateFound;
+            bool hasName = true, hasData = true;
+            int duplicateFound;
             string missingField = "", statMsg = "";
 
             if (String.IsNullOrEmpty(tbName.Text))
@@ -85,7 +87,11 @@ namespace AT1_WikiPrototype
             }
 
             // __________________HERE_______________________
-            //duplicateFound = ;
+            duplicateFound = SearchRecords(tbName.Text);
+            if (duplicateFound != -1)
+            {
+
+            }
 
             if (hasData == false)
             {
@@ -95,6 +101,17 @@ namespace AT1_WikiPrototype
             }
             // Display message in status strip & if to word wrap
             StatusMsg(statMsg, true);
+        }
+
+        // ______________________NOT FINISHED_______________________
+        // Binary search of array to match searchTxt, -1 = not found
+        private int SearchRecords(string searchTxt)
+        {
+            int recIndex = -1;
+
+
+            // Return -1 for no match found
+            return recIndex;
         }
 
         // Displays the status message after formating msg & strip
