@@ -40,13 +40,13 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tbCategory = new System.Windows.Forms.TextBox();
             this.tbStructure = new System.Windows.Forms.TextBox();
             this.tbDefinition = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -148,6 +148,17 @@
             this.tbSearch.TabIndex = 0;
             this.toolTip1.SetToolTip(this.tbSearch, "Search for record with same name as inut");
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Name";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label2, "Data Structure Name");
+            // 
             // tbCategory
             // 
             this.tbCategory.Location = new System.Drawing.Point(58, 82);
@@ -177,16 +188,18 @@
             this.statStripLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 289);
             this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.ShowItemToolTips = true;
             this.statusStrip1.Size = new System.Drawing.Size(504, 22);
             this.statusStrip1.TabIndex = 11;
             // 
             // statStripLabel
             // 
+            this.statStripLabel.AutoToolTip = true;
             this.statStripLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statStripLabel.Name = "statStripLabel";
             this.statStripLabel.Size = new System.Drawing.Size(489, 17);
             this.statStripLabel.Spring = true;
-            this.statStripLabel.Text = "Status Messages";
+            this.statStripLabel.Text = "Status: Load has not run";
             this.statStripLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label1
@@ -198,17 +211,6 @@
             this.label1.TabIndex = 12;
             this.label1.Text = "Search";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Name";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.toolTip1.SetToolTip(this.label2, "Data Structure Name");
             // 
             // label3
             // 
@@ -244,6 +246,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(504, 311);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
