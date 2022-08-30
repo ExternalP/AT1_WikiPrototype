@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 /* Name: Corin Little
  * ID: P453208
- * Date: 9/8/2022 - 23/8/2022
+ * Date: 9/8/2022 - 30/8/2022
  * Purpose: AT1 - Project Wiki Prototype */
 /* Case Study – Data Structures Wiki Catalogue
  * As a senior programmer for CITE Managed Services develop a wiki app prototype 
@@ -45,7 +45,10 @@ namespace AT1_WikiPrototype
         {
             InitializeComponent();
         }
+        // Index of first null in array
         private int nullIndex = 0;
+        // Get screen height so window doesn't grow too tall
+        private int maxWindowHeight = Screen.PrimaryScreen.Bounds.Height/10*9;
 
         // ______________________NOT FINISHED_______________________
         // btn to add a record to myRecordsArray & display it
@@ -87,7 +90,7 @@ namespace AT1_WikiPrototype
             }
 
             // __________________HERE_______________________
-            duplicateFound = SearchRecords(tbName.Text);
+            duplicateFound = SearchRecords(tbName.Text, -1);
             if (duplicateFound != -1)
             {
 
@@ -99,16 +102,54 @@ namespace AT1_WikiPrototype
                     + missingField.Remove(missingField.Length-2)
                     + "\nRemember to fill them in later\n";
             }
-            // Display message in status strip & if to word wrap
+            // Display message in status strip & true to word wrap
             StatusMsg(statMsg, true);
         }
 
         // ______________________NOT FINISHED_______________________
         // Binary search of array to match searchTxt, -1 = not found
-        private int SearchRecords(string searchTxt)
+        private int SearchRecords(string searchTxt, int ignoreIndex)
         {
             int recIndex = -1;
+            int startIndex = -1;
+            int finalIndex = nullIndex;
+            bool flag = false;
+            int foundIndex = -1;
 
+            while (!flag && !((finalIndex - startIndex) <= 1))
+            {
+                int newIndex = (finalIndex + startIndex) / 2;
+                // Compare: == if myRecordsArray[newIndex, 0] same position in 
+                //  sort order as tbName.Text
+                if (String.Compare(myRecordsArray[newIndex, 0], tbName.Text) == 0)
+                {
+                    foundIndex = newIndex;
+                    flag = true;
+                    break;
+                }
+                else
+                {
+                    // Compare: > if myRecordsArray[newIndex, 0] precedes 
+                    //  tbName.Text's position in sort order 
+                    if (String.Compare(myRecordsArray[newIndex, 0], tbName.Text) > 0)
+                    { finalIndex = newIndex; }
+                    // Compare: < if tbName.Text precedes 
+                    //  myRecordsArray[newIndex, 0]'s position in sort order 
+                    else
+                    { startIndex = newIndex; }
+                }
+            }
+            if (flag == true)
+            {
+                // Populate fields & list
+                tbName.Text = myRecordsArray[foundIndex, 0];
+                tbCategory.Text = myRecordsArray[foundIndex, 1];
+                ListViewItem listView1 = new ListViewItem(myRecordsArray[foundIndex, 0]);
+                listView1.SubItems.Add(myRecordsArray[foundIndex, 1]);
+                listView1.SubItems.Add(myRecordsArray[foundIndex, 2]);
+                listView1.SubItems.Add(myRecordsArray[foundIndex, 3]);
+                listViewRecords.Items.Add(listView1);
+            }
 
             // Return -1 for no match found
             return recIndex;
@@ -150,8 +191,17 @@ namespace AT1_WikiPrototype
                 statMsg = msgParts;
             }
             statStripLabel.Text = statMsg.Trim('\n');
+
+            int newStripHeight = statusStrip1.Height - originalHeight;
             // Increase height of window so status strip isn't covering stuff
-            this.Height += statusStrip1.Height - originalHeight; 
+            if (this.Height + newStripHeight < maxWindowHeight)
+            {
+                this.Height += statusStrip1.Height - originalHeight;
+            }
+            else
+            {
+                this.Height = maxWindowHeight;
+            }
         }
     }
 }
