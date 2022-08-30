@@ -66,7 +66,7 @@ namespace AT1_WikiPrototype
         private bool AddRecord()
         {
             bool wasAdded = false;
-            string statMsg = "CANNOT Add Record: Already at max capacity" 
+            string statMsg = "ERROR CANNOT Add Record: Already at max capacity" 
                 + "\nReason: Maxium of " + maxRecords + " records can be stored, " 
                 + "delete a record to add a new one";
             // Check if space in array
@@ -99,22 +99,19 @@ namespace AT1_WikiPrototype
                     missingField += "Definition, ";
                 }
 
-                // __________________HERE_______________________
-                //myRecordsArray[0, 0] = tbName.Text;
-
                 duplicateFound = SearchRecords(tbName.Text);
                 if (hasName == false)
                 {
                     tbName.Focus();
                     tbName.SelectAll();
-                    statMsg += "Invalid Input: Record was NOT added"
+                    statMsg += "ERROR Invalid Input: Record was NOT added"
                         + "\nReason: Name field CANNOT be empty";
                 }
                 else if (duplicateFound != -1)
                 {
                     tbName.Focus();
                     tbName.SelectAll();
-                    statMsg += "Invalid Input: Record was NOT added"
+                    statMsg += "ERROR Invalid Input: Record was NOT added"
                         + "\nReason: Duplicate names are NOT ALLOWED "
                         + "\nA record with the name: \"" + tbName.Text
                         + "\" already exists at index " + duplicateFound;
@@ -129,8 +126,10 @@ namespace AT1_WikiPrototype
                     myRecordsArray[nullIndex, 3] = tbDefinition.Text;
 
                     wasAdded = true;
+                    nullIndex++;
                     statMsg += "Record called \"" 
-                        + myRecordsArray[nullIndex, 0] + "\" was added\n";
+                        + myRecordsArray[nullIndex, 0] + "\" was added";
+                    bubbleSort();
                 }
                 if (hasData == false)
                 {
@@ -144,8 +143,8 @@ namespace AT1_WikiPrototype
             return wasAdded;
         }
 
-        // ______________________NOT FINISHED_______________________
-        // Binary search of array to match searchTxt, -1 = not found
+        // __________________NOT TESTED NEED SORT & DISPLAY____________________
+        // Binary search of array to match searchTxt, return -1 if not found
         private int SearchRecords(string searchTxt)
         {
             int foundIndex = -1;
@@ -175,20 +174,53 @@ namespace AT1_WikiPrototype
                         startIndex = newIndex;
                 }
             }
-            /*if (flag == true)
-            {
-                // Populate fields & list
-                tbName.Text = myRecordsArray[foundIndex, 0];
-                tbCategory.Text = myRecordsArray[foundIndex, 1];
-                tbStructure.Text = myRecordsArray[foundIndex, 2];
-                tbDefinition.Text = myRecordsArray[foundIndex, 3];
-                ListViewItem listView1 = new ListViewItem(myRecordsArray[foundIndex, 0]);
-                listView1.SubItems.Add(myRecordsArray[foundIndex, 1]);
-                listViewRecords.Items.Add(listView1);
-            }*/
-
             // Return -1 for no match found
             return foundIndex;
+        }
+
+        // Sorts myRecordsArray by name
+        private void bubbleSort()
+        {
+            bool flag = false;
+            do
+            {
+                flag = false;
+                for (int i = 0; i < myRecordsArray.Length - 1; i++)
+                {
+                    if (String.IsNullOrEmpty(myRecordsArray[(i + 1), 0]))
+                    { break; }
+                    // Sorts a to z
+                    // myRecordsArray with identical name are placed together
+                    else if (myRecordsArray[i, 0].CompareTo(myRecordsArray[(i + 1), 0]) > 0)
+                    {
+                        Swapper(i, (i + 1));
+                        // Loops until nothing left to swap
+                        flag = true;
+                    }
+                }
+            } while (flag == true);
+        }
+
+        // Swaps arrays index i with i + 1
+        private void Swapper(int a, int b)
+        {
+            string temp;
+            // Swapping names
+            temp = myRecordsArray[a, 0];
+            myRecordsArray[a, 0] = myRecordsArray[b, 0];
+            myRecordsArray[b, 0] = temp;
+            // Swapping categories
+            temp = myRecordsArray[a, 1];
+            myRecordsArray[a, 1] = myRecordsArray[b, 1];
+            myRecordsArray[b, 1] = temp;
+            // Swapping structures
+            temp = myRecordsArray[a, 2];
+            myRecordsArray[a, 2] = myRecordsArray[b, 2];
+            myRecordsArray[b, 2] = temp;
+            // Swapping definition
+            temp = myRecordsArray[a, 3];
+            myRecordsArray[a, 3] = myRecordsArray[b, 3];
+            myRecordsArray[b, 3] = temp;
         }
 
         // Displays the status message after formating msg & strip
