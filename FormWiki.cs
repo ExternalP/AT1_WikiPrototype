@@ -34,13 +34,17 @@ using System.Windows.Forms;
  *  - A textbox for searching.
  *  - Buttons to add, edit, delete, save & load.
  *  - Status strip to display error messages.
+ *  
+ *  IMPORTANT FOR editRecord() DONT SEARCH IF NAME NOT CHANGED
+ *  Add nullIndex++ to end of fileReader() as well as in the loop
  */
 namespace AT1_WikiPrototype
 {
     public partial class FormWiki : Form
     {
+        private static int maxRecords = 12;
         // Initialise the 2D array
-        string[,] myRecordsArray = new string[12, 4];
+        string[,] myRecordsArray = new string[maxRecords, 4];
         public FormWiki()
         {
             InitializeComponent();
@@ -59,100 +63,132 @@ namespace AT1_WikiPrototype
 
         // ______________________NOT FINISHED_______________________
         // Add record details to myRecordsArray if valid
-        private void AddRecord()
+        private bool AddRecord()
         {
-            // hasData = false if invalid field (stat-msg but still add record)
-            // hasName: if false DONT add record
-            bool hasName = true, hasData = true;
-            int duplicateFound;
-            string missingField = "", statMsg = "";
+            bool wasAdded = false;
+            string statMsg = "CANNOT Add Record: Already at max capacity" 
+                + "\nReason: Maxium of " + maxRecords + " records can be stored, " 
+                + "delete a record to add a new one";
+            // Check if space in array
+            if (nullIndex <= maxRecords-1)
+            {
+                statMsg = "";
+                // hasData = false if invalid field (stat-msg but still add record)
+                // hasName: if false DONT add record
+                bool hasName = true, hasData = true;
+                int duplicateFound;
+                string missingField = "";
 
-            if (String.IsNullOrEmpty(tbName.Text))
-            {
-                hasName = false;
-                hasData = false;
-                missingField = "Name, ";
-            }
-            if (String.IsNullOrEmpty(tbCategory.Text))
-            {
-                hasData = false;
-                missingField += "Category, ";
-            }
-            if (String.IsNullOrEmpty(tbStructure.Text))
-            {
-                hasData = false;
-                missingField += "Structure, ";
-            }
-            if (String.IsNullOrEmpty(tbDefinition.Text))
-            {
-                hasData = false;
-                missingField += "Definition, ";
-            }
+                if (String.IsNullOrEmpty(tbName.Text))
+                {
+                    hasName = false;
+                }
+                if (String.IsNullOrEmpty(tbCategory.Text))
+                {
+                    hasData = false;
+                    missingField = "Category, ";
+                }
+                if (String.IsNullOrEmpty(tbStructure.Text))
+                {
+                    hasData = false;
+                    missingField += "Structure, ";
+                }
+                if (String.IsNullOrEmpty(tbDefinition.Text))
+                {
+                    hasData = false;
+                    missingField += "Definition, ";
+                }
 
-            // __________________HERE_______________________
-            duplicateFound = SearchRecords(tbName.Text, -1);
-            if (duplicateFound != -1)
-            {
+                // __________________HERE_______________________
+                //myRecordsArray[0, 0] = tbName.Text;
 
-            }
+                duplicateFound = SearchRecords(tbName.Text);
+                if (hasName == false)
+                {
+                    tbName.Focus();
+                    tbName.SelectAll();
+                    statMsg += "Invalid Input: Record was NOT added"
+                        + "\nReason: Name field CANNOT be empty";
+                }
+                else if (duplicateFound != -1)
+                {
+                    tbName.Focus();
+                    tbName.SelectAll();
+                    statMsg += "Invalid Input: Record was NOT added"
+                        + "\nReason: Duplicate names are NOT ALLOWED "
+                        + "\nA record with the name: \"" + tbName.Text
+                        + "\" already exists at index " + duplicateFound;
+                }
 
-            if (hasData == false)
-            {
-                statMsg += "The following field(s) are empty: " 
-                    + missingField.Remove(missingField.Length-2)
-                    + "\nRemember to fill them in later\n";
+                // Add record to myRecordsArray[]
+                if (hasName == true && duplicateFound == -1)
+                {
+                    myRecordsArray[nullIndex, 0] = tbName.Text;
+                    myRecordsArray[nullIndex, 1] = tbCategory.Text;
+                    myRecordsArray[nullIndex, 2] = tbStructure.Text;
+                    myRecordsArray[nullIndex, 3] = tbDefinition.Text;
+
+                    wasAdded = true;
+                    statMsg += "Record called \"" 
+                        + myRecordsArray[nullIndex, 0] + "\" was added\n";
+                }
+                if (hasData == false)
+                {
+                    statMsg += "\nThe following field(s) are empty: "
+                        + missingField.Remove(missingField.Length - 2)
+                        + "\nRemember to fill them in later\n";
+                }
             }
             // Display message in status strip & true to word wrap
             StatusMsg(statMsg, true);
+            return wasAdded;
         }
 
         // ______________________NOT FINISHED_______________________
         // Binary search of array to match searchTxt, -1 = not found
-        private int SearchRecords(string searchTxt, int ignoreIndex)
+        private int SearchRecords(string searchTxt)
         {
-            int recIndex = -1;
+            int foundIndex = -1;
             int startIndex = -1;
             int finalIndex = nullIndex;
             bool flag = false;
-            int foundIndex = -1;
 
             while (!flag && !((finalIndex - startIndex) <= 1))
             {
                 int newIndex = (finalIndex + startIndex) / 2;
                 // Compare: == if myRecordsArray[newIndex, 0] same position in 
                 //  sort order as tbName.Text
-                if (String.Compare(myRecordsArray[newIndex, 0], tbName.Text) == 0)
+                if (String.Compare(myRecordsArray[newIndex, 0], searchTxt) == 0)
                 {
                     foundIndex = newIndex;
                     flag = true;
-                    break;
                 }
                 else
                 {
                     // Compare: > if myRecordsArray[newIndex, 0] precedes 
                     //  tbName.Text's position in sort order 
-                    if (String.Compare(myRecordsArray[newIndex, 0], tbName.Text) > 0)
-                    { finalIndex = newIndex; }
+                    if (String.Compare(myRecordsArray[newIndex, 0], searchTxt) > 0)
+                        finalIndex = newIndex;
                     // Compare: < if tbName.Text precedes 
                     //  myRecordsArray[newIndex, 0]'s position in sort order 
                     else
-                    { startIndex = newIndex; }
+                        startIndex = newIndex;
                 }
             }
-            if (flag == true)
+            /*if (flag == true)
             {
                 // Populate fields & list
                 tbName.Text = myRecordsArray[foundIndex, 0];
                 tbCategory.Text = myRecordsArray[foundIndex, 1];
+                tbStructure.Text = myRecordsArray[foundIndex, 2];
+                tbDefinition.Text = myRecordsArray[foundIndex, 3];
                 ListViewItem listView1 = new ListViewItem(myRecordsArray[foundIndex, 0]);
                 listView1.SubItems.Add(myRecordsArray[foundIndex, 1]);
-                listView1.SubItems.Add(myRecordsArray[foundIndex, 2]);
-                listView1.SubItems.Add(myRecordsArray[foundIndex, 3]);
                 listViewRecords.Items.Add(listView1);
-            }
+            }*/
 
             // Return -1 for no match found
-            return recIndex;
+            return foundIndex;
         }
 
         // Displays the status message after formating msg & strip
@@ -195,13 +231,9 @@ namespace AT1_WikiPrototype
             int newStripHeight = statusStrip1.Height - originalHeight;
             // Increase height of window so status strip isn't covering stuff
             if (this.Height + newStripHeight < maxWindowHeight)
-            {
                 this.Height += statusStrip1.Height - originalHeight;
-            }
             else
-            {
                 this.Height = maxWindowHeight;
-            }
         }
     }
 }
