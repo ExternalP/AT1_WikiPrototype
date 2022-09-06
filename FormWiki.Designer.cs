@@ -142,6 +142,7 @@
             // 
             // tbSearch
             // 
+            this.tbSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(255)))), ((int)(((byte)(226)))));
             this.tbSearch.Location = new System.Drawing.Point(58, 17);
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(121, 20);
@@ -205,6 +206,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Green;
             this.label1.Location = new System.Drawing.Point(14, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
@@ -267,6 +270,7 @@
             this.Controls.Add(this.listViewRecords);
             this.Name = "FormWiki";
             this.Text = "Wiki Prototype";
+            this.Load += new System.EventHandler(this.FormWiki_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);

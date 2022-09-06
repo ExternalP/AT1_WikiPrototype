@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 /* Name: Corin Little
  * ID: P453208
- * Date: 9/8/2022 - 30/8/2022
+ * Date: 9/8/2022 - 6/9/2022
  * Purpose: AT1 - Project Wiki Prototype */
 /* Case Study – Data Structures Wiki Catalogue
  * As a senior programmer for CITE Managed Services develop a wiki app prototype 
@@ -42,6 +42,7 @@ namespace AT1_WikiPrototype
 {
     public partial class FormWiki : Form
     {
+        // When using maxRecords for final index remember to -1 from it
         private static int maxRecords = 12;
         // Initialise the 2D array
         string[,] myRecordsArray = new string[maxRecords, 4];
@@ -51,8 +52,8 @@ namespace AT1_WikiPrototype
         }
         // Index of first null in array
         private int nullIndex = 0;
-        // Get screen height so window doesn't grow too tall
-        private int maxWindowHeight = Screen.PrimaryScreen.Bounds.Height/10*9;
+        // Set in StatusMsg() so window is shorter than current screen height
+        private int maxWindowHeight;
 
         // ______________________NOT FINISHED_______________________
         // btn to add a record to myRecordsArray & display it
@@ -260,12 +261,21 @@ namespace AT1_WikiPrototype
             }
             statStripLabel.Text = statMsg.Trim('\n');
 
+            // maxWindowHeight set to 90% of current screen height
+            maxWindowHeight = Screen.FromControl(this).Bounds.Height /10*9;
             int newStripHeight = statusStrip1.Height - originalHeight;
             // Increase height of window so status strip isn't covering stuff
             if (this.Height + newStripHeight < maxWindowHeight)
                 this.Height += statusStrip1.Height - originalHeight;
             else
                 this.Height = maxWindowHeight;
+        }
+
+        // ______________________EMPTY METHOD_______________________
+        // DECIDE IF I WANT TO LOAD DATA ON LAUNCH (CURRENTLY I DONT)
+        private void FormWiki_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }
