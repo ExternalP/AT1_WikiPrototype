@@ -54,12 +54,41 @@ namespace AT1_WikiPrototype
         private int nullIndex = 0;
         // Set in StatusMsg() so window is shorter than current screen height
         private int maxWindowHeight;
+        private string appendErrMsg = "";
 
         // ______________________NOT FINISHED_______________________
         // btn to add a record to myRecordsArray & display it
         private void btnAdd_Click(object sender, EventArgs e)
         {
             AddRecord();
+        }
+
+        // ______________________NOT FINISHED_______________________
+        private void tbSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (!String.IsNullOrEmpty(tbSearch.Text))
+                {
+                    int matchIndex = SearchRecords(tbSearch.Text);
+                    if (matchIndex != -1)
+                    {
+
+                    }
+                    else
+                    {
+                        StatusMsg("No match found for \"" + tbSearch.Text + "\"", true);
+                    }
+                }
+                else
+                {
+                    StatusMsg("ERROR Invalid Input: Value NOT searched"
+                        + "\nReason: Search field was empty", true);
+                }
+                tbSearch.Clear();
+                tbSearch.Focus();
+                tbSearch.SelectAll();
+            }
         }
 
         // ______________________NOT FINISHED_______________________
@@ -130,7 +159,7 @@ namespace AT1_WikiPrototype
                     nullIndex++;
                     statMsg += "Record called \"" 
                         + myRecordsArray[nullIndex, 0] + "\" was added";
-                    bubbleSort();
+                    BubbleSort();
                 }
                 if (hasData == false)
                 {
@@ -157,7 +186,7 @@ namespace AT1_WikiPrototype
             {
                 int newIndex = (finalIndex + startIndex) / 2;
                 // Compare: == if myRecordsArray[newIndex, 0] same position in 
-                //  sort order as tbName.Text
+                //   sort order as tbName.Text
                 if (String.Compare(myRecordsArray[newIndex, 0], searchTxt) == 0)
                 {
                     foundIndex = newIndex;
@@ -179,10 +208,12 @@ namespace AT1_WikiPrototype
             return foundIndex;
         }
 
-        // Sorts myRecordsArray by name
-        private void bubbleSort()
+        // Sorts myRecordsArray by name (a to z)
+        // Calls Swapper() to swaps record position with the next index
+        private void BubbleSort()
         {
             bool flag = false;
+            int duplicateIndex = -1;
             do
             {
                 flag = false;
@@ -191,18 +222,29 @@ namespace AT1_WikiPrototype
                     if (String.IsNullOrEmpty(myRecordsArray[(i + 1), 0]))
                     { break; }
                     // Sorts a to z
-                    // myRecordsArray with identical name are placed together
-                    else if (myRecordsArray[i, 0].CompareTo(myRecordsArray[(i + 1), 0]) > 0)
+                    // CompareTo output: "abc".CompareTo("bcd")=-1, bcd.abc=1,  
+                    //   abc.abc=0, ABC.abc=1, acc.abc=1
+                    // Records with identical names are placed together (CANT happen i think)
+                    else if (myRecordsArray[i, 0].CompareTo(myRecordsArray[(i+1), 0]) > 0)
                     {
                         Swapper(i, (i + 1));
                         // Loops until nothing left to swap
                         flag = true;
                     }
+                    else if (myRecordsArray[i, 0].CompareTo(myRecordsArray[(i + 1), 0]) == 0)
+                    { duplicateIndex = i; }
                 }
             } while (flag == true);
+            if (duplicateIndex != -1)
+            {
+                appendErrMsg += "ERROR: The name \"" + myRecordsArray[duplicateIndex, 0]
+                            + "\" is both index: " + duplicateIndex 
+                            + " and " + (duplicateIndex + 1);
+            }
         }
 
-        // Swaps arrays index i with i + 1
+        // Swaps array's index 'i' with 'i+1' to swap record's position with the next
+        // Used by BubbleSort() to order records 
         private void Swapper(int a, int b)
         {
             string temp;
@@ -259,7 +301,8 @@ namespace AT1_WikiPrototype
                 }
                 statMsg = msgParts;
             }
-            statStripLabel.Text = statMsg.Trim('\n');
+            statStripLabel.Text = statMsg.Trim('\n') + "\n\n" + appendErrMsg.Trim('\n');
+            appendErrMsg = "";
 
             // maxWindowHeight set to 90% of current screen height
             maxWindowHeight = Screen.FromControl(this).Bounds.Height /10*9;
@@ -275,7 +318,10 @@ namespace AT1_WikiPrototype
         // DECIDE IF I WANT TO LOAD DATA ON LAUNCH (CURRENTLY I DONT)
         private void FormWiki_Load(object sender, EventArgs e)
         {
-            
+            /*MessageBox.Show("On Load - Testing MessageBox: " 
+                + "\n1. What1 " + nullIndex 
+                + "\n2. What2 " + nullIndex
+                + "\n3. What3 " + nullIndex + " EndOfMsg");*/
         }
     }
 }

@@ -50,6 +50,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.openFileDialogWiki = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialogWiki = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -147,7 +149,8 @@
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(121, 20);
             this.tbSearch.TabIndex = 0;
-            this.toolTip1.SetToolTip(this.tbSearch, "Search for record with same name as inut");
+            this.toolTip1.SetToolTip(this.tbSearch, "Search for record with same name as input\r\nPress \'Enter\' to search");
+            this.tbSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyDown);
             // 
             // label2
             // 
@@ -214,6 +217,7 @@
             this.label1.TabIndex = 12;
             this.label1.Text = "Search";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label1, "Search for record with same name as input\r\nPress \'Enter\' in textbox to search");
             // 
             // label3
             // 
@@ -244,6 +248,19 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "Definition";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // openFileDialogWiki
+            // 
+            this.openFileDialogWiki.DefaultExt = "dat";
+            this.openFileDialogWiki.Filter = "\"Binary files (*.dat)|*.dat|All files (*.*)|*.*\"";
+            this.openFileDialogWiki.Title = "Load Wiki Records";
+            // 
+            // saveFileDialogWiki
+            // 
+            this.saveFileDialogWiki.DefaultExt = "dat";
+            this.saveFileDialogWiki.FileName = "definitions";
+            this.saveFileDialogWiki.Filter = "\"Binary files (*.dat)|*.dat|All files (*.*)|*.*\"";
+            this.saveFileDialogWiki.Title = "Save Wiki Records";
             // 
             // FormWiki
             // 
@@ -301,6 +318,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.OpenFileDialog openFileDialogWiki;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogWiki;
     }
 }
 
