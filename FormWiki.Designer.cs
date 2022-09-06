@@ -65,12 +65,14 @@
             this.listViewRecords.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewRecords.HideSelection = false;
             this.listViewRecords.Location = new System.Drawing.Point(287, 12);
+            this.listViewRecords.MultiSelect = false;
             this.listViewRecords.Name = "listViewRecords";
             this.listViewRecords.Size = new System.Drawing.Size(205, 259);
             this.listViewRecords.TabIndex = 5;
             this.toolTip1.SetToolTip(this.listViewRecords, "Select a record to display its details in the 4 fields");
             this.listViewRecords.UseCompatibleStateImageBehavior = false;
             this.listViewRecords.View = System.Windows.Forms.View.Details;
+            this.listViewRecords.SelectedIndexChanged += new System.EventHandler(this.listRecords_SelectedIndexChanged);
             // 
             // columnName
             // 

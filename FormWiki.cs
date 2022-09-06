@@ -73,7 +73,10 @@ namespace AT1_WikiPrototype
                     int matchIndex = SearchRecords(tbSearch.Text);
                     if (matchIndex != -1)
                     {
-
+                        // ______________________NOT FINISHED_______________________
+                        // ______________________NOT FINISHED_______________________
+                        // ______________________NOT FINISHED_______________________
+                        // ______________________NOT FINISHED_______________________
                     }
                     else
                     {
@@ -187,7 +190,8 @@ namespace AT1_WikiPrototype
                 int newIndex = (finalIndex + startIndex) / 2;
                 // Compare: == if myRecordsArray[newIndex, 0] same position in 
                 //   sort order as tbName.Text
-                if (String.Compare(myRecordsArray[newIndex, 0], searchTxt) == 0)
+                if (String.Compare(myRecordsArray[newIndex, 0], searchTxt, 
+                    StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     foundIndex = newIndex;
                     flag = true;
@@ -196,12 +200,17 @@ namespace AT1_WikiPrototype
                 {
                     // Compare: > if myRecordsArray[newIndex, 0] precedes 
                     //  tbName.Text's position in sort order 
-                    if (String.Compare(myRecordsArray[newIndex, 0], searchTxt) > 0)
+                    if (String.Compare(myRecordsArray[newIndex, 0], searchTxt, 
+                        StringComparison.OrdinalIgnoreCase) > 0)
+                    {
                         finalIndex = newIndex;
+                    }
                     // Compare: < if tbName.Text precedes 
                     //  myRecordsArray[newIndex, 0]'s position in sort order 
                     else
+                    {
                         startIndex = newIndex;
+                    }
                 }
             }
             // Return -1 for no match found
@@ -220,7 +229,9 @@ namespace AT1_WikiPrototype
                 for (int i = 0; i < myRecordsArray.Length - 1; i++)
                 {
                     if (String.IsNullOrEmpty(myRecordsArray[(i + 1), 0]))
-                    { break; }
+                    {
+                        break;
+                    }
                     // Sorts a to z
                     // CompareTo output: "abc".CompareTo("bcd")=-1, bcd.abc=1,  
                     //   abc.abc=0, ABC.abc=1, acc.abc=1
@@ -231,8 +242,11 @@ namespace AT1_WikiPrototype
                         // Loops until nothing left to swap
                         flag = true;
                     }
-                    else if (myRecordsArray[i, 0].CompareTo(myRecordsArray[(i + 1), 0]) == 0)
-                    { duplicateIndex = i; }
+                    else if (String.Compare(myRecordsArray[i, 0], myRecordsArray[(i + 1), 0], 
+                        StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        duplicateIndex = i;
+                    }
                 }
             } while (flag == true);
             if (duplicateIndex != -1)
@@ -314,14 +328,25 @@ namespace AT1_WikiPrototype
                 this.Height = maxWindowHeight;
         }
 
+        // ______________________NOT FINISHED_______________________
+        private void SelectRecord()
+        {
+            int selectedIndex = listViewRecords.SelectedIndices[0];
+        }
+
+        // ______________________NOT FINISHED_______________________
+        private void listRecords_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectRecord();
+        }
+
         // ______________________EMPTY METHOD_______________________
         // DECIDE IF I WANT TO LOAD DATA ON LAUNCH (CURRENTLY I DONT)
         private void FormWiki_Load(object sender, EventArgs e)
         {
-            /*MessageBox.Show("On Load - Testing MessageBox: " 
-                + "\n1. What1 " + nullIndex 
-                + "\n2. What2 " + nullIndex
-                + "\n3. What3 " + nullIndex + " EndOfMsg");*/
+            /*MessageBox.Show("On Load - Testing MessageBox: "
+                + "\n1. What1 " + nullIndex
+                + "\n2. What2 " + nullIndex + " EndOfMsg");*/
         }
     }
 }
