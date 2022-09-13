@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 /* Name: Corin Little
  * ID: P453208
- * Date: 9/8/2022 - 6/9/2022
+ * Date: 9/8/2022 - 13/9/2022
  * Purpose: AT1 - Project Wiki Prototype */
 /* Case Study – Data Structures Wiki Catalogue
  * As a senior programmer for CITE Managed Services develop a wiki app prototype 
@@ -63,7 +63,9 @@ namespace AT1_WikiPrototype
             AddRecord();
         }
 
-        // ______________________NOT FINISHED_______________________
+        // Searches for a record's name that matches tbSearch & if found selects
+        //   record in listview displaying its details
+        // Focuses & clear tbSearch after search
         private void tbSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -73,10 +75,11 @@ namespace AT1_WikiPrototype
                     int matchIndex = SearchRecords(tbSearch.Text);
                     if (matchIndex != -1)
                     {
-                        // ______________________NOT FINISHED_______________________
-                        // ______________________NOT FINISHED_______________________
-                        // ______________________NOT FINISHED_______________________
-                        // ______________________NOT FINISHED_______________________
+                        // Selects a record in listview which is detected by
+                        //   listRecords_SelectedIndexChanged() so the record is displayed
+                        listViewRecords.Items[matchIndex].Selected = true;
+                        StatusMsg("Match found for \"" + tbSearch.Text + "\" at index: " 
+                            + matchIndex, true);
                     }
                     else
                     {
@@ -91,6 +94,27 @@ namespace AT1_WikiPrototype
                 tbSearch.Clear();
                 tbSearch.Focus();
                 tbSearch.SelectAll();
+            }
+        }
+
+        // Displays records in listViewRecords after sort
+        private void DisplayRecords()
+        {
+            // Clear the list
+            listViewRecords.Items.Clear();
+            BubbleSort();
+            for (int i = 0; i < nullIndex; i++)
+            {
+                // Error message if nullIndex is wrong & exit loop
+                if (string.IsNullOrEmpty(myRecordsArray[i, 0]))
+                {
+                    appendErrMsg += "ERROR: nullIndex = " + nullIndex + " however index "
+                        + i + " is null\n";
+                    break;
+                }
+                ListViewItem listView1 = new ListViewItem(myRecordsArray[i, 0]);
+                listView1.SubItems.Add(myRecordsArray[i, 1]);
+                listViewRecords.Items.Add(listView1);
             }
         }
 
@@ -176,7 +200,7 @@ namespace AT1_WikiPrototype
             return wasAdded;
         }
 
-        // __________________NOT TESTED NEED SORT & DISPLAY____________________
+        // __________________NOT TESTED NEEDS DISPLAY____________________
         // Binary search of array to match searchTxt, return -1 if not found
         private int SearchRecords(string searchTxt)
         {
@@ -226,7 +250,7 @@ namespace AT1_WikiPrototype
             do
             {
                 flag = false;
-                for (int i = 0; i < myRecordsArray.Length - 1; i++)
+                for (int i = 0; i < nullIndex - 1; i++)
                 {
                     if (String.IsNullOrEmpty(myRecordsArray[(i + 1), 0]))
                     {
@@ -253,7 +277,7 @@ namespace AT1_WikiPrototype
             {
                 appendErrMsg += "ERROR: The name \"" + myRecordsArray[duplicateIndex, 0]
                             + "\" is both index: " + duplicateIndex 
-                            + " and " + (duplicateIndex + 1);
+                            + " and " + (duplicateIndex + 1 + "\n");
             }
         }
 
@@ -286,7 +310,7 @@ namespace AT1_WikiPrototype
             int originalHeight = statusStrip1.Height;
             // Strip text line NOT visible if >95 char for default size
             int maxLength = (int)(Convert.ToDouble(statStripLabel.Width)/4.8) - 3;
-            
+            statMsg = (statMsg.Trim('\n') + "\n\n" + appendErrMsg.Trim('\n')).Trim('\n');
             // Manual word wrap for the status strip
             if (wrapTxt == true)
             {
@@ -315,7 +339,7 @@ namespace AT1_WikiPrototype
                 }
                 statMsg = msgParts;
             }
-            statStripLabel.Text = statMsg.Trim('\n') + "\n\n" + appendErrMsg.Trim('\n');
+            statStripLabel.Text = statMsg;
             appendErrMsg = "";
 
             // maxWindowHeight set to 90% of current screen height
@@ -328,16 +352,25 @@ namespace AT1_WikiPrototype
                 this.Height = maxWindowHeight;
         }
 
-        // ______________________NOT FINISHED_______________________
+        // Outputs details of the record selected in the listview to their textboxes
         private void SelectRecord()
         {
             int selectedIndex = listViewRecords.SelectedIndices[0];
+            tbName.Text = myRecordsArray[selectedIndex, 0];
+            tbCategory.Text = myRecordsArray[selectedIndex, 1];
+            tbStructure.Text = myRecordsArray[selectedIndex, 2];
+            tbDefinition.Text = myRecordsArray[selectedIndex, 3];
         }
 
-        // ______________________NOT FINISHED_______________________
+        // Detects if a record is selected in the listview & calls SelectRecords()
+        //   to display its details (if it detects selection is null does nothing)
         private void listRecords_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectRecord();
+            // Do nothing if the SelectedIndexChanged() detected was nothing selected
+            if (listViewRecords.SelectedIndices.Count > 0)
+            {
+                SelectRecord();
+            }
         }
 
         // ______________________EMPTY METHOD_______________________
