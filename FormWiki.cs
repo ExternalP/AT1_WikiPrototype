@@ -56,11 +56,11 @@ namespace AT1_WikiPrototype
         private int maxWindowHeight;
         private string appendErrMsg = "";
 
-        // ______________________NOT FINISHED_______________________
-        // btn to add a record to myRecordsArray & display it
+        // btn to add a valid record to myRecordsArray & display it
         private void btnAdd_Click(object sender, EventArgs e)
         {
             AddRecord();
+            DisplayRecords();
         }
 
         // Searches for a record's name that matches tbSearch & if found selects
@@ -97,6 +97,14 @@ namespace AT1_WikiPrototype
             }
         }
 
+        // If tbName is double clicked clear all 4 fields & focuses tbName
+        private void tbName_DoubleClick(object sender, EventArgs e)
+        {
+            ClearFields();
+            tbName.Focus();
+            tbName.SelectAll();
+        }
+
         // Displays records in listViewRecords after sort
         private void DisplayRecords()
         {
@@ -118,7 +126,6 @@ namespace AT1_WikiPrototype
             }
         }
 
-        // ______________________NOT FINISHED_______________________
         // Add record details to myRecordsArray if valid
         private bool AddRecord()
         {
@@ -174,7 +181,7 @@ namespace AT1_WikiPrototype
                         + "\" already exists at index " + duplicateFound;
                 }
 
-                // Add record to myRecordsArray[]
+                // Add record to myRecordsArray[] if valid
                 if (hasName == true && duplicateFound == -1)
                 {
                     myRecordsArray[nullIndex, 0] = tbName.Text;
@@ -183,16 +190,17 @@ namespace AT1_WikiPrototype
                     myRecordsArray[nullIndex, 3] = tbDefinition.Text;
 
                     wasAdded = true;
-                    nullIndex++;
                     statMsg += "Record called \"" 
                         + myRecordsArray[nullIndex, 0] + "\" was added";
+                    nullIndex++;
                     BubbleSort();
-                }
-                if (hasData == false)
-                {
-                    statMsg += "\nThe following field(s) are empty: "
-                        + missingField.Remove(missingField.Length - 2)
-                        + "\nRemember to fill them in later\n";
+                    ClearFields();
+                    if (hasData == false)
+                    {
+                        statMsg += "\nThe following field(s) are empty: "
+                            + missingField.Remove(missingField.Length - 2)
+                            + "\nRemember to fill them in later\n";
+                    }
                 }
             }
             // Display message in status strip & true to word wrap
@@ -337,7 +345,7 @@ namespace AT1_WikiPrototype
                     foreach (var item in parts)
                         msgParts += item.Value + "\n";
                 }
-                statMsg = msgParts;
+                statMsg = msgParts.Trim('\n');
             }
             statStripLabel.Text = statMsg;
             appendErrMsg = "";
@@ -356,10 +364,26 @@ namespace AT1_WikiPrototype
         private void SelectRecord()
         {
             int selectedIndex = listViewRecords.SelectedIndices[0];
+            Font notSelectedFont = new Font(listViewRecords.Font, FontStyle.Regular);
+            for (int i = 0; i < nullIndex; i++)
+            {
+                listViewRecords.Items[i].Font = notSelectedFont;
+            }
+            listViewRecords.Items[selectedIndex].Font = 
+                new Font(listViewRecords.Font, FontStyle.Bold);
             tbName.Text = myRecordsArray[selectedIndex, 0];
             tbCategory.Text = myRecordsArray[selectedIndex, 1];
             tbStructure.Text = myRecordsArray[selectedIndex, 2];
             tbDefinition.Text = myRecordsArray[selectedIndex, 3];
+        }
+
+        // Clears all 4 fields (NOT tbSearch or listview)
+        private void ClearFields()
+        {
+            tbName.Clear();
+            tbCategory.Clear();
+            tbStructure.Clear();
+            tbDefinition.Clear();
         }
 
         // Detects if a record is selected in the listview & calls SelectRecords()

@@ -41,12 +41,12 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.tbCategory = new System.Windows.Forms.TextBox();
             this.tbStructure = new System.Windows.Forms.TextBox();
             this.tbDefinition = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -91,6 +91,7 @@
             this.tbName.Size = new System.Drawing.Size(121, 20);
             this.tbName.TabIndex = 1;
             this.toolTip1.SetToolTip(this.tbName, "Double click here to clear all fields");
+            this.tbName.DoubleClick += new System.EventHandler(this.tbName_DoubleClick);
             // 
             // btnSave
             // 
@@ -165,6 +166,19 @@
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.toolTip1.SetToolTip(this.label2, "Data Structure Name");
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Green;
+            this.label1.Location = new System.Drawing.Point(14, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Search";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label1, "Search for record with same name as input\r\nPress \'Enter\' in textbox to search");
+            // 
             // tbCategory
             // 
             this.tbCategory.Location = new System.Drawing.Point(58, 82);
@@ -205,21 +219,8 @@
             this.statStripLabel.Name = "statStripLabel";
             this.statStripLabel.Size = new System.Drawing.Size(489, 17);
             this.statStripLabel.Spring = true;
-            this.statStripLabel.Text = "Status: Load has not run";
+            this.statStripLabel.Text = "Status: Press \'Load from File\' to load saved records";
             this.statStripLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Green;
-            this.label1.Location = new System.Drawing.Point(14, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Search";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.toolTip1.SetToolTip(this.label1, "Search for record with same name as input\r\nPress \'Enter\' in textbox to search");
             // 
             // label3
             // 
