@@ -87,6 +87,39 @@ namespace AT1_WikiPrototype
             }
         }
 
+        // btn to delete the selected record if confirmed & update listview
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // If no record selected output message that a record must be selected
+            if (listViewRecords.SelectedIndices.Count > 0)
+            {
+                int selectedIndex = listViewRecords.SelectedIndices[0];
+                DialogResult result = MessageBox.Show(("Are sure you want to delete "
+                    + "the record called \"" + myRecordsArray[selectedIndex, 0] 
+                    + "\" at index " + selectedIndex + "\n\nClick 'Yes' to delete the"
+                    + " record\nClick 'No' to cancel deletion"),
+                    "Confirm Deletion", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    DeleteRecord(selectedIndex);
+                    ClearFields();
+                    tbSearch.Focus();
+                    tbSearch.SelectAll();
+                    DisplayRecords();
+                }
+                else
+                {
+                    StatusMsg("Record deletion was cancelled", true);
+                }
+            }
+            else
+            {
+                StatusMsg("Error: Record was NOT deleted \nReason: No record "
+                    + "was selected to delete", true);
+            }
+
+        }
+
         // Searches for a record's name that matches tbSearch & if found selects
         //   record in listview displaying its details
         // Focuses & clear tbSearch after search
@@ -150,7 +183,7 @@ namespace AT1_WikiPrototype
             }
         }
 
-        // Add record details to myRecordsArray if valid
+        // Add new record to myRecordsArray if valid
         private bool AddRecord()
         {
             bool wasAdded = false;
@@ -282,6 +315,25 @@ namespace AT1_WikiPrototype
             // Display message in status strip & true to word wrap
             StatusMsg(statMsg, true);
             return wasEditted;
+        }
+
+        //_____________________FINISHED BUT NEEDS MORE TESTING_________________________
+        // Delete record after confirmation at sent index
+        private void DeleteRecord(int delIndex)
+        {
+            string statMsg = "Deleted record called \"" + myRecordsArray[delIndex, 0]
+                    + "\" that was located at index " + delIndex + " ("
+                    + (nullIndex-1) + "/" + maxRecords + " records)";
+            for (int i = delIndex; i < nullIndex - 1; i++)
+            {
+                Swapper(i, (i + 1));
+            }
+            nullIndex--;
+            myRecordsArray[nullIndex, 0] = null;
+            myRecordsArray[nullIndex, 1] = null;
+            myRecordsArray[nullIndex, 2] = null;
+            myRecordsArray[nullIndex, 3] = null;
+            StatusMsg(statMsg, true);
         }
 
         // Binary search of array to match searchTxt, return -1 if not found

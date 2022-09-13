@@ -69,7 +69,8 @@
             this.listViewRecords.Name = "listViewRecords";
             this.listViewRecords.Size = new System.Drawing.Size(205, 241);
             this.listViewRecords.TabIndex = 5;
-            this.toolTip1.SetToolTip(this.listViewRecords, "Select a record to display its details in the 4 fields");
+            this.toolTip1.SetToolTip(this.listViewRecords, "Select a record to display its details in the 4 fields\r\n(indexing starts with \'0\'" +
+        ")");
             this.listViewRecords.UseCompatibleStateImageBehavior = false;
             this.listViewRecords.View = System.Windows.Forms.View.Details;
             this.listViewRecords.SelectedIndexChanged += new System.EventHandler(this.listRecords_SelectedIndexChanged);
@@ -143,8 +144,9 @@
             this.btnDelete.Size = new System.Drawing.Size(85, 23);
             this.btnDelete.TabIndex = 10;
             this.btnDelete.Text = "Delete Record";
-            this.toolTip1.SetToolTip(this.btnDelete, "Delete a record & all its data from the list");
+            this.toolTip1.SetToolTip(this.btnDelete, "Delete the record currently selected in the list & all its data");
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // tbSearch
             // 
