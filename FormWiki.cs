@@ -59,8 +59,32 @@ namespace AT1_WikiPrototype
         // btn to add a valid record to myRecordsArray & display it
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddRecord();
+            if (AddRecord())
+            {
+                ClearFields();
+                tbName.Focus();
+            }
             DisplayRecords();
+        }
+
+        // btn to edit the selected record if new field values are valid & display it
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            // If no record selected output message that a record must be selected
+            if (listViewRecords.SelectedIndices.Count > 0)
+            {
+                if (EditRecord(listViewRecords.SelectedIndices[0]))
+                {
+                    ClearFields();
+                    tbName.Focus();
+                    DisplayRecords();
+                }
+            }
+            else
+            {
+                StatusMsg("Error: Record was NOT editted \nReason: No record " 
+                    + "was selected to edit", true);
+            }
         }
 
         // Searches for a record's name that matches tbSearch & if found selects
@@ -190,11 +214,10 @@ namespace AT1_WikiPrototype
                     myRecordsArray[nullIndex, 3] = tbDefinition.Text;
 
                     wasAdded = true;
-                    statMsg += "Record called \"" 
-                        + myRecordsArray[nullIndex, 0] + "\" was added";
+                    statMsg += "Record called \"" + myRecordsArray[nullIndex, 0] 
+                        + "\" was added (" + (nullIndex+1) + "/" + maxRecords + " records)";
                     nullIndex++;
                     BubbleSort();
-                    ClearFields();
                     if (hasData == false)
                     {
                         statMsg += "\nThe following field(s) are empty: "
@@ -208,7 +231,59 @@ namespace AT1_WikiPrototype
             return wasAdded;
         }
 
-        // __________________NOT TESTED NEEDS DISPLAY____________________
+        // Edit record & update array if valid at sent index
+        private bool EditRecord(int editIndex)
+        {
+            bool wasEditted = false;
+            string statMsg = "", nameChange = "";
+            // hasName: if false DONT edit record
+            bool hasName = true;
+            // if duplicateFound != -1 then a duplicate was found
+            int duplicateFound = -1;
+
+            if (String.Compare(myRecordsArray[editIndex, 0], tbName.Text,
+                    StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                duplicateFound = SearchRecords(tbName.Text);
+                nameChange = "\nname was changed from \"" + myRecordsArray[editIndex, 0] 
+                    + "\" to \"" + tbName.Text + "\"";
+            }
+            if (String.IsNullOrEmpty(tbName.Text))
+            {
+                hasName = false;
+                tbName.Focus();
+                tbName.SelectAll();
+                statMsg += "ERROR Invalid Input: Record was NOT editted"
+                    + "\nReason: Name field CANNOT be empty";
+            }
+            else if (duplicateFound != -1)
+            {
+                tbName.Focus();
+                tbName.SelectAll();
+                statMsg += "ERROR Invalid Input: Record was NOT editted"
+                    + "\nReason: Duplicate names are NOT ALLOWED "
+                    + "\nA record with the name: \"" + tbName.Text
+                    + "\" already exists at index " + duplicateFound;
+            }
+
+            // Edit record & update myRecordsArray[] if true
+            if (hasName == true && duplicateFound == -1)
+            {
+                myRecordsArray[editIndex, 0] = tbName.Text;
+                myRecordsArray[editIndex, 1] = tbCategory.Text;
+                myRecordsArray[editIndex, 2] = tbStructure.Text;
+                myRecordsArray[editIndex, 3] = tbDefinition.Text;
+
+                wasEditted = true;
+                statMsg += "Record called \"" + myRecordsArray[editIndex, 0]
+                    + "\" was editted" + nameChange;
+                BubbleSort();
+            }
+            // Display message in status strip & true to word wrap
+            StatusMsg(statMsg, true);
+            return wasEditted;
+        }
+
         // Binary search of array to match searchTxt, return -1 if not found
         private int SearchRecords(string searchTxt)
         {

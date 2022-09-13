@@ -67,7 +67,7 @@
             this.listViewRecords.Location = new System.Drawing.Point(287, 12);
             this.listViewRecords.MultiSelect = false;
             this.listViewRecords.Name = "listViewRecords";
-            this.listViewRecords.Size = new System.Drawing.Size(205, 259);
+            this.listViewRecords.Size = new System.Drawing.Size(205, 241);
             this.listViewRecords.TabIndex = 5;
             this.toolTip1.SetToolTip(this.listViewRecords, "Select a record to display its details in the 4 fields");
             this.listViewRecords.UseCompatibleStateImageBehavior = false;
@@ -133,6 +133,7 @@
             this.btnEdit.Text = "Edit Record";
             this.toolTip1.SetToolTip(this.btnEdit, "Update the record currently selected in the list to match the fields");
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDelete
             // 
@@ -198,7 +199,7 @@
             this.tbDefinition.Location = new System.Drawing.Point(23, 157);
             this.tbDefinition.Multiline = true;
             this.tbDefinition.Name = "tbDefinition";
-            this.tbDefinition.Size = new System.Drawing.Size(232, 114);
+            this.tbDefinition.Size = new System.Drawing.Size(232, 96);
             this.tbDefinition.TabIndex = 4;
             // 
             // statusStrip1
@@ -206,7 +207,7 @@
             this.statusStrip1.AccessibleName = "";
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statStripLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 289);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 268);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
             this.statusStrip1.Size = new System.Drawing.Size(504, 22);
@@ -270,7 +271,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(504, 311);
+            this.ClientSize = new System.Drawing.Size(504, 290);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
