@@ -206,6 +206,13 @@ namespace AT1_WikiPrototype
             tbName.SelectAll();
         }
 
+        // Detects if a record is selected/unselected in the listview 
+        //   & calls SelectRecords() to display its details
+        private void listRecords_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectRecord();
+        }
+
         // Displays records in listViewRecords after sort
         private void DisplayRecords()
         {
@@ -561,14 +568,7 @@ namespace AT1_WikiPrototype
             tbStructure.Clear();
             tbDefinition.Clear();
         }
-
-        // Detects if a record is selected/unselected in the listview 
-        //   & calls SelectRecords() to display its details
-        private void listRecords_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SelectRecord();
-        }
-
+        
         // Records data is written to selected file (definitions.dat)
         private void FileWriter(string filePath)
         {
@@ -668,7 +668,7 @@ namespace AT1_WikiPrototype
                 "all 4 fields.", false);
         }
 
-        // On close asks to select a location to save the records array (definitions.dat)
+        // On close asks to select location to save the records array (definitions.dat)
         private void FormWiki_FormClosing(object sender, FormClosingEventArgs e)
         {
             // If any records in array ask to save
