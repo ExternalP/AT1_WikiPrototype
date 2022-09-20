@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,12 +125,24 @@ namespace AT1_WikiPrototype
         // btn to save the records array to definitions.dat
         private void btnSave_Click(object sender, EventArgs e)
         {
-            saveFileDialogWiki.Filter = "XML Files|*.xml";
-            saveFileDialogWiki.Title = "Save games library";
+            // If no records in array
+            if (nullIndex == 0)
+            {
+                DialogResult result = MessageBox.Show(("Currently no records are loaded."
+                    + "\nAre you sure you want to save."
+                    + "\n\nClick 'Yes' to continue to save"
+                    + "\nClick 'No' to cancel saving"),
+                    "Begin Save", MessageBoxButtons.YesNo);
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            
+            saveFileDialogWiki.FileName = "definitions.dat";
             if (saveFileDialogWiki.ShowDialog() == DialogResult.OK)
             {
-                WriteToXmlFile<List<Game>>(saveFileDialogGames.FileName, myGames);
-                DisplayRecords();
+                FileWriter(saveFileDialogWiki.FileName);
             }
         }
 
@@ -540,9 +553,87 @@ namespace AT1_WikiPrototype
             SelectRecord();
         }
 
+        // Records data is written to selected file (definitions.dat)
         private void FileWriter(string filePath)
         {
+            BinaryWriter bw;
 
+            // Create the file
+            try
+            {
+                bw = new BinaryWriter(new FileStream(filePath, FileMode.Create));
+            }
+            catch (Exception fe)
+            {
+                MessageBox.Show(" ERROR: Cannot write data to file."
+                    + "\nFilepath: " + filePath + "\n\n" + fe.Message);
+                return;
+            }
+
+            // Writing to file
+            try
+            {
+                for (int i = 0; i < nullIndex; i++)
+                {
+                    bw.Write(myRecordsArray[i, 0]);
+                    bw.Write(myRecordsArray[i, 1]);
+                    bw.Write(myRecordsArray[i, 2]);
+                    bw.Write(myRecordsArray[i, 3]);
+                }
+                StatusMsg("Records were successfully saved to:\n" + filePath, true);
+            }
+            catch (Exception fe)
+            {
+                MessageBox.Show(" ERROR: Cannot write data to file."
+                    + "\nFilepath: " + filePath + "\n\n" + fe.Message);
+            }
+
+            bw.Close();
+        }
+
+        // Reading from selected file (definitions.dat) 
+        private void fileReader(string filePath)
+        {
+            BinaryReader br;
+            try
+            {
+                br = new BinaryReader(new FileStream("transactions.dat",
+                    FileMode.Open));
+            }
+            catch (Exception fe)
+            {
+                MessageBox.Show(" ERROR: Cannot open file to read data from."
+                    + "\nFilepath: " + filePath + "\n\n" + fe.Message);
+                return;
+            }
+
+            // Clear current array by initialising again
+            myRecordsArray = new string[maxRecords, 4];
+            // Read data
+            try
+            {
+                for (int i = 0; i < maxRecords; i++)
+                {
+                    nullIndex = i;
+                    if (br.BaseStream.Position == br.BaseStream.Length)
+                    { break; }
+                    myRecordsArray[i, 0] = br.ReadString();
+                    myRecordsArray[i, 1] = br.ReadString();
+                    myRecordsArray[i, 2] = br.ReadString();
+                    myRecordsArray[i, 3] = br.ReadString();
+                }
+                StatusMsg("Loaded records from:\n" + filePath, true);
+            }
+            catch (EndOfStreamException eof) // Catches the EOF
+            {
+                MessageBox.Show("EOF reached, no more data.");
+            }
+            catch (Exception fe)
+            {
+                MessageBox.Show(" ERROR: Cannot read data from file."
+                + "\nFilepath: " + filePath + "\n\n" + fe.Message);
+            }
+            br.Close();
         }
 
         // ________________________TESTING STUFF HERE, DELETE WHEN DONE____________________________
