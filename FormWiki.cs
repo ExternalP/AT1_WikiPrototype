@@ -630,7 +630,6 @@ namespace AT1_WikiPrototype
             {
                 for (int i = 0; i < maxRecords; i++)
                 {
-                    nullIndex = i;
                     // Exit loop if reached end of file
                     if (br.BaseStream.Position == br.BaseStream.Length)
                     { break; }
@@ -638,12 +637,15 @@ namespace AT1_WikiPrototype
                     myRecordsArray[i, 1] = br.ReadString();
                     myRecordsArray[i, 2] = br.ReadString();
                     myRecordsArray[i, 3] = br.ReadString();
+                    nullIndex = i;
                 }
                 StatusMsg("Loaded records from:\n" + filePath, true);
+                nullIndex++;
             }
             catch (EndOfStreamException eof) // Catches the EOF
             {
                 MessageBox.Show("EOF reached, no more data.");
+                nullIndex++;
             }
             catch (Exception fe)
             {
