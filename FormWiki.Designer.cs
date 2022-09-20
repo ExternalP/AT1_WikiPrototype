@@ -103,6 +103,7 @@
             this.btnSave.Text = "Save to File";
             this.toolTip1.SetToolTip(this.btnSave, "Save records to definitions.dat");
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnLoad
             // 
@@ -220,9 +221,9 @@
             this.statStripLabel.AutoToolTip = true;
             this.statStripLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statStripLabel.Name = "statStripLabel";
-            this.statStripLabel.Size = new System.Drawing.Size(489, 17);
+            this.statStripLabel.Size = new System.Drawing.Size(458, 17);
             this.statStripLabel.Spring = true;
-            this.statStripLabel.Text = "Status: Press \'Load from File\' to load saved records";
+            this.statStripLabel.Text = "Status: New form opened";
             this.statStripLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -258,6 +259,7 @@
             // openFileDialogWiki
             // 
             this.openFileDialogWiki.DefaultExt = "dat";
+            this.openFileDialogWiki.FileName = "definitions";
             this.openFileDialogWiki.Filter = "\"Binary files (*.dat)|*.dat|All files (*.*)|*.*\"";
             this.openFileDialogWiki.Title = "Load Wiki Records";
             // 

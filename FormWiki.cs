@@ -120,6 +120,19 @@ namespace AT1_WikiPrototype
 
         }
 
+        //_____________________________NOT FINISHED________________________________________
+        // btn to save the records array to definitions.dat
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            saveFileDialogWiki.Filter = "XML Files|*.xml";
+            saveFileDialogWiki.Title = "Save games library";
+            if (saveFileDialogWiki.ShowDialog() == DialogResult.OK)
+            {
+                WriteToXmlFile<List<Game>>(saveFileDialogGames.FileName, myGames);
+                DisplayRecords();
+            }
+        }
+
         // Searches for a record's name that matches tbSearch & if found selects
         //   record in listview displaying its details
         // Focuses & clear tbSearch after search
@@ -127,6 +140,8 @@ namespace AT1_WikiPrototype
         {
             if (e.KeyCode == Keys.Enter)
             {
+                listViewRecords.SelectedIndices.Clear();
+                ClearFields();
                 if (!String.IsNullOrEmpty(tbSearch.Text))
                 {
                     int matchIndex = SearchRecords(tbSearch.Text);
@@ -317,7 +332,6 @@ namespace AT1_WikiPrototype
             return wasEditted;
         }
 
-        //_____________________FINISHED BUT NEEDS MORE TESTING_________________________
         // Delete record after confirmation at sent index
         private void DeleteRecord(int delIndex)
         {
@@ -488,20 +502,26 @@ namespace AT1_WikiPrototype
         }
 
         // Outputs details of the record selected in the listview to their textboxes
+        // Bolds only the selected item
         private void SelectRecord()
         {
-            int selectedIndex = listViewRecords.SelectedIndices[0];
+            // Unbolds all items first so only selected item is bold
             Font notSelectedFont = new Font(listViewRecords.Font, FontStyle.Regular);
             for (int i = 0; i < nullIndex; i++)
             {
                 listViewRecords.Items[i].Font = notSelectedFont;
             }
-            listViewRecords.Items[selectedIndex].Font = 
-                new Font(listViewRecords.Font, FontStyle.Bold);
-            tbName.Text = myRecordsArray[selectedIndex, 0];
-            tbCategory.Text = myRecordsArray[selectedIndex, 1];
-            tbStructure.Text = myRecordsArray[selectedIndex, 2];
-            tbDefinition.Text = myRecordsArray[selectedIndex, 3];
+            // If it detects an item is selected make its name bold
+            if (listViewRecords.SelectedIndices.Count != 0)
+            {
+                int selectedIndex = listViewRecords.SelectedIndices[0];
+                listViewRecords.Items[selectedIndex].Font =
+                    new Font(listViewRecords.Font, FontStyle.Bold);
+                tbName.Text = myRecordsArray[selectedIndex, 0];
+                tbCategory.Text = myRecordsArray[selectedIndex, 1];
+                tbStructure.Text = myRecordsArray[selectedIndex, 2];
+                tbDefinition.Text = myRecordsArray[selectedIndex, 3];
+            }
         }
 
         // Clears all 4 fields (NOT tbSearch or listview)
@@ -513,21 +533,31 @@ namespace AT1_WikiPrototype
             tbDefinition.Clear();
         }
 
-        // Detects if a record is selected in the listview & calls SelectRecords()
-        //   to display its details (if it detects selection is null does nothing)
+        // Detects if a record is selected/unselected in the listview 
+        //   & calls SelectRecords() to display its details
         private void listRecords_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Do nothing if the SelectedIndexChanged() detected was nothing selected
-            if (listViewRecords.SelectedIndices.Count > 0)
-            {
-                SelectRecord();
-            }
+            SelectRecord();
         }
 
-        // ______________________EMPTY METHOD_______________________
-        // DECIDE IF I WANT TO LOAD DATA ON LAUNCH (CURRENTLY I DONT)
+        private void FileWriter(string filePath)
+        {
+
+        }
+
+        // ________________________TESTING STUFF HERE, DELETE WHEN DONE____________________________
+        // On load sets status strip to display some tips
         private void FormWiki_Load(object sender, EventArgs e)
         {
+            StatusMsg("Tips: " +
+                "1. Press 'Load from File' to load saved records.\n         " +
+                "2. Press the 'Enter' key in the 'Search' box to search input.\n" +
+                "         3. Records with the same name cannot be added.\n" +
+                "         4. Clicking on a record will select it & show its details " +
+                "in the fields.\n         5. Double click the 'Name' field to clear " +
+                "all 4 fields.", false);
+
+            // ________________________TESTING STUFF HERE, DELETE WHEN DONE____________________________
             /*MessageBox.Show("On Load - Testing MessageBox: "
                 + "\n1. What1 " + nullIndex
                 + "\n2. What2 " + nullIndex + " EndOfMsg");*/
