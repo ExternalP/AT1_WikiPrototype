@@ -121,8 +121,8 @@ namespace AT1_WikiPrototype
 
         }
 
-        //_____________________________NOT FINISHED________________________________________
-        // btn to save the records array to definitions.dat
+        //_____________________________NOT TESTED________________________________________
+        // btn to save the records array to selected file (definitions.dat)
         private void btnSave_Click(object sender, EventArgs e)
         {
             // If no records in array
@@ -139,11 +139,27 @@ namespace AT1_WikiPrototype
                 }
             }
             
-            saveFileDialogWiki.FileName = "definitions.dat";
+            saveFileDialogWiki.FileName = "definitions";
             if (saveFileDialogWiki.ShowDialog() == DialogResult.OK)
             {
+                if (Path.GetExtension(saveFileDialogWiki.FileName).ToLower() != ".dat")
+                {
+                    saveFileDialogWiki.FileName += ".dat";
+                }
                 FileWriter(saveFileDialogWiki.FileName);
             }
+            DisplayRecords();
+        }
+
+        // btn to load the records from selected file (definitions.dat) to array
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            openFileDialogWiki.FileName = "definitions";
+            if (openFileDialogWiki.ShowDialog() == DialogResult.OK)
+            {
+                FileReader(openFileDialogWiki.FileName);
+            }
+            DisplayRecords();
         }
 
         // Searches for a record's name that matches tbSearch & if found selects
@@ -592,12 +608,12 @@ namespace AT1_WikiPrototype
         }
 
         // Reading from selected file (definitions.dat) 
-        private void fileReader(string filePath)
+        private void FileReader(string filePath)
         {
             BinaryReader br;
             try
             {
-                br = new BinaryReader(new FileStream("transactions.dat",
+                br = new BinaryReader(new FileStream(filePath,
                     FileMode.Open));
             }
             catch (Exception fe)
@@ -615,6 +631,7 @@ namespace AT1_WikiPrototype
                 for (int i = 0; i < maxRecords; i++)
                 {
                     nullIndex = i;
+                    // Exit loop if reached end of file
                     if (br.BaseStream.Position == br.BaseStream.Length)
                     { break; }
                     myRecordsArray[i, 0] = br.ReadString();

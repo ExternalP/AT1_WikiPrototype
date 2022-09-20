@@ -114,6 +114,7 @@
             this.btnLoad.Text = "Load from File";
             this.toolTip1.SetToolTip(this.btnLoad, "Load records from a definitions.dat file");
             this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // btnAdd
             // 
@@ -260,14 +261,14 @@
             // 
             this.openFileDialogWiki.DefaultExt = "dat";
             this.openFileDialogWiki.FileName = "definitions";
-            this.openFileDialogWiki.Filter = "\"Binary files (*.dat)|*.dat|All files (*.*)|*.*\"";
+            this.openFileDialogWiki.Filter = "Binary files (*.dat)|*.dat";
             this.openFileDialogWiki.Title = "Load Wiki Records";
             // 
             // saveFileDialogWiki
             // 
             this.saveFileDialogWiki.DefaultExt = "dat";
             this.saveFileDialogWiki.FileName = "definitions";
-            this.saveFileDialogWiki.Filter = "\"Binary files (*.dat)|*.dat|All files (*.*)|*.*\"";
+            this.saveFileDialogWiki.Filter = "Binary files (*.dat)|*.dat";
             this.saveFileDialogWiki.Title = "Save Wiki Records";
             // 
             // FormWiki
