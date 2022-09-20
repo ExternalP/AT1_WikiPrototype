@@ -1,7 +1,7 @@
 # AT1_WikiPrototype
 /* Name: Corin Little
  * ID: P453208
- * Date: 9/8/2022 - 23/8/2022
+ * Date: 9/8/2022 - 20/9/2022
  * Purpose: AT1 - Project Wiki Prototype */
 /* Case Study – Data Structures Wiki Catalogue
  * As a senior programmer for CITE Managed Services develop a wiki app prototype 
@@ -11,7 +11,7 @@
  * Need to use GitHub version control for project. */
 /* Basic Structure:
  *  - ONLY allowed 1 class: FormWIki.cs
- *  - Simple global 2D String array to store records: myRecordsArray[11, 3].
+ *  - Simple global 2D String array to store records: myRecordsArray[12, 4].
  *  - Records' 4 String fields: recName, recCategory, recStructure & recDefinition.
  *  - Can add/edit/delete records
  *  - Search records by Name.

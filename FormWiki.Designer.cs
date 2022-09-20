@@ -296,6 +296,7 @@
             this.Controls.Add(this.listViewRecords);
             this.Name = "FormWiki";
             this.Text = "Wiki Prototype";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWiki_FormClosing);
             this.Load += new System.EventHandler(this.FormWiki_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

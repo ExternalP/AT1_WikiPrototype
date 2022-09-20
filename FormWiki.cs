@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 /* Name: Corin Little
  * ID: P453208
- * Date: 9/8/2022 - 13/9/2022
+ * Date: 9/8/2022 - 20/9/2022
  * Purpose: AT1 - Project Wiki Prototype */
 /* Case Study – Data Structures Wiki Catalogue
  * As a senior programmer for CITE Managed Services develop a wiki app prototype 
@@ -35,9 +35,6 @@ using System.Windows.Forms;
  *  - A textbox for searching.
  *  - Buttons to add, edit, delete, save & load.
  *  - Status strip to display error messages.
- *  
- *  IMPORTANT FOR editRecord() DONT SEARCH IF NAME NOT CHANGED
- *  Add nullIndex++ to end of fileReader() as well as in the loop
  */
 namespace AT1_WikiPrototype
 {
@@ -121,11 +118,10 @@ namespace AT1_WikiPrototype
 
         }
 
-        //_____________________________NOT TESTED________________________________________
-        // btn to save the records array to selected file (definitions.dat)
+        // btn to save the records array & select location (definitions.dat)
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // If no records in array
+            // If no records in array ask want to save
             if (nullIndex == 0)
             {
                 DialogResult result = MessageBox.Show(("Currently no records are loaded."
@@ -147,17 +143,21 @@ namespace AT1_WikiPrototype
                     saveFileDialogWiki.FileName += ".dat";
                 }
                 FileWriter(saveFileDialogWiki.FileName);
+                saveFileDialogWiki.InitialDirectory = Path.GetDirectoryName(
+                    saveFileDialogWiki.FileName);
             }
             DisplayRecords();
         }
 
-        // btn to load the records from selected file (definitions.dat) to array
+        // btn to load the records to the array by selecting a file (definitions.dat)
         private void btnLoad_Click(object sender, EventArgs e)
         {
             openFileDialogWiki.FileName = "definitions";
             if (openFileDialogWiki.ShowDialog() == DialogResult.OK)
             {
                 FileReader(openFileDialogWiki.FileName);
+                openFileDialogWiki.InitialDirectory = Path.GetDirectoryName(
+                    openFileDialogWiki.FileName);
             }
             DisplayRecords();
         }
@@ -657,6 +657,9 @@ namespace AT1_WikiPrototype
         // On load sets status strip to display some tips
         private void FormWiki_Load(object sender, EventArgs e)
         {
+            string initialPath = Path.Combine(Application.StartupPath, @"");
+            saveFileDialogWiki.InitialDirectory = initialPath;
+            openFileDialogWiki.InitialDirectory = initialPath;
             StatusMsg("Tips: " +
                 "1. Press 'Load from File' to load saved records.\n         " +
                 "2. Press the 'Enter' key in the 'Search' box to search input.\n" +
@@ -664,11 +667,26 @@ namespace AT1_WikiPrototype
                 "         4. Clicking on a record will select it & show its details " +
                 "in the fields.\n         5. Double click the 'Name' field to clear " +
                 "all 4 fields.", false);
+        }
 
-            // ________________________TESTING STUFF HERE, DELETE WHEN DONE____________________________
-            /*MessageBox.Show("On Load - Testing MessageBox: "
-                + "\n1. What1 " + nullIndex
-                + "\n2. What2 " + nullIndex + " EndOfMsg");*/
+        // On close asks to select a location to save the records array (definitions.dat)
+        private void FormWiki_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // If any records in array ask to save
+            if (nullIndex != 0)
+            {
+                saveFileDialogWiki.FileName = "definitions";
+                if (saveFileDialogWiki.ShowDialog() == DialogResult.OK)
+                {
+                    if (Path.GetExtension(saveFileDialogWiki.FileName).ToLower() != ".dat")
+                    {
+                        saveFileDialogWiki.FileName += ".dat";
+                    }
+                    FileWriter(saveFileDialogWiki.FileName);
+                    saveFileDialogWiki.InitialDirectory = Path.GetDirectoryName(
+                        saveFileDialogWiki.FileName);
+                }
+            }
         }
     }
 }
