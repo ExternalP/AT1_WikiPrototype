@@ -653,8 +653,7 @@ namespace AT1_WikiPrototype
             br.Close();
         }
 
-        // ________________________TESTING STUFF HERE, DELETE WHEN DONE____________________________
-        // On load sets status strip to display some tips
+        // On load sets InitialDirectory & status strip to display some tips
         private void FormWiki_Load(object sender, EventArgs e)
         {
             string initialPath = Path.Combine(Application.StartupPath, @"");
