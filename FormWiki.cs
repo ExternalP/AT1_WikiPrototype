@@ -125,9 +125,7 @@ namespace AT1_WikiPrototype
             if (nullIndex == 0)
             {
                 DialogResult result = MessageBox.Show(("Currently no records are loaded."
-                    + "\nAre you sure you want to save."
-                    + "\n\nClick 'Yes' to continue to save"
-                    + "\nClick 'No' to cancel saving"),
+                    + "\nAre you sure you want to save."),
                     "Begin Save", MessageBoxButtons.YesNo);
                 if (result == DialogResult.No)
                 {
@@ -152,6 +150,19 @@ namespace AT1_WikiPrototype
         // btn to load the records to the array by selecting a file (definitions.dat)
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            // If no records in array ask want to save
+            if (nullIndex > 0)
+            {
+                DialogResult result = MessageBox.Show(("Loading a records file will " 
+                    + "overwrite current records."
+                    + "\nAre you sure you want to load records from file."),
+                    "Warning: Overwrite current records", MessageBoxButtons.YesNo);
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
             openFileDialogWiki.FileName = "definitions";
             if (openFileDialogWiki.ShowDialog() == DialogResult.OK)
             {
@@ -204,6 +215,7 @@ namespace AT1_WikiPrototype
             ClearFields();
             tbName.Focus();
             tbName.SelectAll();
+            StatusMsg("All fields have been cleared", true);
         }
 
         // Detects if a record is selected/unselected in the listview 
@@ -597,7 +609,7 @@ namespace AT1_WikiPrototype
                     bw.Write(myRecordsArray[i, 2]);
                     bw.Write(myRecordsArray[i, 3]);
                 }
-                StatusMsg("Records were successfully saved to:\n" + filePath, true);
+                StatusMsg(nullIndex + " record/s were successfully saved to:\n" + filePath, true);
             }
             catch (Exception fe)
             {
@@ -640,8 +652,8 @@ namespace AT1_WikiPrototype
                     myRecordsArray[i, 3] = br.ReadString();
                     nullIndex = i;
                 }
-                StatusMsg("Loaded records from:\n" + filePath, true);
                 nullIndex++;
+                StatusMsg("Loaded " + nullIndex + " record/s from:\n" + filePath, true);
             }
             catch (EndOfStreamException eof) // Catches the EOF
             {

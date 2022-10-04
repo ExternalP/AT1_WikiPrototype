@@ -88,10 +88,11 @@
             // tbName
             // 
             this.tbName.Location = new System.Drawing.Point(58, 56);
+            this.tbName.MaxLength = 50;
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(121, 20);
             this.tbName.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.tbName, "Double click here to clear all fields");
+            this.toolTip1.SetToolTip(this.tbName, "Double click here to clear all fields\r\n(Max Characters: 50)");
             this.tbName.DoubleClick += new System.EventHandler(this.tbName_DoubleClick);
             // 
             // btnSave
@@ -154,6 +155,7 @@
             // 
             this.tbSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(255)))), ((int)(((byte)(226)))));
             this.tbSearch.Location = new System.Drawing.Point(58, 17);
+            this.tbSearch.MaxLength = 50;
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(121, 20);
             this.tbSearch.TabIndex = 0;
@@ -182,29 +184,36 @@
             this.label1.TabIndex = 12;
             this.label1.Text = "Search";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.toolTip1.SetToolTip(this.label1, "Search for record with same name as input\r\nPress \'Enter\' in textbox to search");
+            this.toolTip1.SetToolTip(this.label1, "Search for record with same name as input\r\nPress \'Enter\' in textbox to search\r\nWi" +
+        "ll ignore case");
             // 
             // tbCategory
             // 
             this.tbCategory.Location = new System.Drawing.Point(58, 82);
+            this.tbCategory.MaxLength = 50;
             this.tbCategory.Name = "tbCategory";
             this.tbCategory.Size = new System.Drawing.Size(121, 20);
             this.tbCategory.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.tbCategory, "Category field\r\n(Max Characters: 50)");
             // 
             // tbStructure
             // 
             this.tbStructure.Location = new System.Drawing.Point(58, 108);
+            this.tbStructure.MaxLength = 50;
             this.tbStructure.Name = "tbStructure";
             this.tbStructure.Size = new System.Drawing.Size(121, 20);
             this.tbStructure.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.tbStructure, "Structure field\r\n(Max Characters: 50)");
             // 
             // tbDefinition
             // 
             this.tbDefinition.Location = new System.Drawing.Point(23, 157);
+            this.tbDefinition.MaxLength = 600;
             this.tbDefinition.Multiline = true;
             this.tbDefinition.Name = "tbDefinition";
             this.tbDefinition.Size = new System.Drawing.Size(232, 96);
             this.tbDefinition.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.tbDefinition, "Definition field\r\n(Max Characters: 600)");
             // 
             // statusStrip1
             // 
@@ -222,7 +231,7 @@
             this.statStripLabel.AutoToolTip = true;
             this.statStripLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statStripLabel.Name = "statStripLabel";
-            this.statStripLabel.Size = new System.Drawing.Size(458, 17);
+            this.statStripLabel.Size = new System.Drawing.Size(489, 17);
             this.statStripLabel.Spring = true;
             this.statStripLabel.Text = "Status: New form opened";
             this.statStripLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -236,6 +245,7 @@
             this.label3.TabIndex = 14;
             this.label3.Text = "Category";
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label3, "Data Structure Category");
             // 
             // label4
             // 
@@ -246,6 +256,7 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "Structure";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label4, "Data Structure");
             // 
             // label5
             // 
@@ -256,6 +267,7 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "Definition";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label5, "Data Structure Definition");
             // 
             // openFileDialogWiki
             // 
