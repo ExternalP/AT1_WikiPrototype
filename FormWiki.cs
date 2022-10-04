@@ -434,6 +434,7 @@ namespace AT1_WikiPrototype
             int duplicateIndex = -1;
             do
             {
+                // Loop ends if flag NOT changed to true before end of loop
                 flag = false;
                 for (int i = 0; i < nullIndex - 1; i++)
                 {
@@ -441,14 +442,14 @@ namespace AT1_WikiPrototype
                     {
                         break;
                     }
-                    // Sorts a to z
-                    // CompareTo output: "abc".CompareTo("bcd")=-1, bcd.abc=1,  
-                    //   abc.abc=0, ABC.abc=1, acc.abc=1
-                    // Records with identical names are placed together (CANT happen i think)
+                    /* Sorts a to z, should trigger until nothing left to swap
+                     * CompareTo output: "abc".CompareTo("bcd")=-1, bcd.abc=1, 
+                     *   abc.abc=0, ABC.abc=1, acc.abc=1 
+                     * Records with identical names are placed together (CANT happen i think) */
                     else if (myRecordsArray[i, 0].CompareTo(myRecordsArray[(i+1), 0]) > 0)
                     {
                         Swapper(i, (i + 1));
-                        // Loops until nothing left to swap
+                        // Set 'true' to keep looping
                         flag = true;
                     }
                     else if (String.Compare(myRecordsArray[i, 0], myRecordsArray[(i + 1), 0], 
