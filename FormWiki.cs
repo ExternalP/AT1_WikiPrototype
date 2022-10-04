@@ -21,14 +21,14 @@ using System.Windows.Forms;
 /* Basic Structure:
  *  - ONLY allowed 1 class: FormWIki.cs
  *  - Simple global 2D String array to store records: myRecordsArray[12, 4].
- *  - Records' 4 String fields: recName, recCategory, recStructure & recDefinition.
+ *  - Records' 4 String fields for Name, Category, Structure & Definition.
  *  - Can add/edit/delete records
- *  - Search records by Name.
- *  - Binary file definitions.dat to stored the records by create/save/load from it.
- *  - Full error trapping & feedback messages.
+ *  - Binary search records by Name (NO built-in)
+ *  - definitions.dat to stored the records by create/save/load from it. (Choose location)
  *  - Selecting a record causes its data to be display in the 4 fields
- *  - Sort array by name using separate bubble sort & swap methods
+ *  - Sort array by name using separate bubble sort & swap methods (NO built-in)
  *  - Clear all 4 field boxes when name field is double clicked
+ *  - Full error trapping & feedback messages.
  * Form Design:
  *  - Listbox displaying selectable records sorted by name.
  *  - 4 textboxes for the 4 fields.
